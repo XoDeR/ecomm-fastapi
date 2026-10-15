@@ -1,0 +1,8 @@
+{
+	"folders": [
+		{ "name": "backend", "path": "backend" },
+		{ "name": "dashboard", "path": "dashboard" },
+		{ "name": "frontend", "path": "frontend" }
+	],
+	"settings": {}
+}
