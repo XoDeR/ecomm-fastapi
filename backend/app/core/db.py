@@ -29,7 +29,5 @@ async def get_session() -> AsyncIterator[AsyncSession]:
     async with session_factory()() as session:
         yield session
 
-# to remove, test to see if env is parsed correctly
-print(get_settings().database_url)
-print(get_settings().frontend_url)
+
 

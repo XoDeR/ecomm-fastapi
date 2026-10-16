@@ -1,9 +1,6 @@
 from fastapi import FastAPI
 from app.api import health, auth
 
-# to remove, test to see if env is parsed correctly
-from app.core import db  # noqa: F401  (temporary: triggers the print)
-
 def create_app() -> FastAPI:
     app = FastAPI(title="Ecomm")
 
