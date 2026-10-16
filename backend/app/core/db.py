@@ -14,19 +14,11 @@ from app.core.config import get_settings
 class Base(DeclarativeBase):
     pass
 
-def _engine() -> AsyncEngine:
-    return create_async_engine(get_settings().database_url)
-
-_session_factory: async_sessionmaker[AsyncSession] | None = None
-
-def session_factory() -> async_sessionmaker[AsyncSession]:
-    global _session_factory
-    if _session_factory is None:
-        _session_factory = async_sessionmaker(_engine(), expire_on_commit=False)
-    return _session_factory
+engine = create_async_engine(get_settings().database_url)
+session_factory = async_sessionmaker(engine, expire_on_commit=False)
 
 async def get_session() -> AsyncIterator[AsyncSession]:
-    async with session_factory()() as session:
+    async with session_factory() as session:
         yield session
 
 

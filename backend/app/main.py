@@ -1,6 +1,15 @@
 from fastapi import FastAPI
 from app.api import health, auth
 
+from contextlib import asynccontextmanager
+
+from app.core.db import engine
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    await engine.dispose()
+
 def create_app() -> FastAPI:
     app = FastAPI(title="Ecomm")
 
