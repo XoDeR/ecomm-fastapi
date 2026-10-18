@@ -1,14 +1,14 @@
 from fastapi import APIRouter, status, HTTPException
 
 from app.models.user import User
-from app.schemas.auth import UserOut, RegisterIn
+from app.schemas.auth import UserOut, RegisterIn, TokenOut
 from app.api.deps import SessionDep
 
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 
 from starlette.concurrency import run_in_threadpool
-from app.core.security import hash_password, verify_password
+from app.core.security import hash_password, verify_password, create_access_token
 
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -34,9 +34,16 @@ async def register(data: RegisterIn, session: SessionDep) -> User:
     await session.refresh(user)
     return user
 
-@router.post("/login")
-async def login() -> dict[str, str]:
-    return {"route": "login"}
+@router.post("/login", response_model=TokenOut)
+async def login(data: LoginIn, session: SessionDep) -> TokenOut:
+    invalid = HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid credentials")
+    email = data.email.lower()
+    user = await session.scalar(select(User).where(User.email == email))
+    if user is None or user.password_hash is None:
+        raise invalid
+    if not await run_in_threadpool(verify_password, data.password, user.password_hash):
+        raise invalid
+    return TokenOut(access_token=create_access_token(user.id))
 
 @router.get("/me")
 async def me() -> dict[str, str]:

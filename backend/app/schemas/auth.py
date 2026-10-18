@@ -20,3 +20,17 @@ class RegisterIn(BaseModel):
     @classmethod
     def _password_byte_length(cls, value: str) -> str:
         return _validate_password_byte_length(value)
+
+class LoginIn(BaseModel):
+    email: EmailStr
+    password: str
+
+    @field_validator("password")
+    @classmethod
+    def _password_byte_length(cls, value: str) -> str:
+        return _validate_password_byte_length(value)
+
+
+class TokenOut(BaseModel):
+    access_token: str
+    token_type: str = "bearer"
