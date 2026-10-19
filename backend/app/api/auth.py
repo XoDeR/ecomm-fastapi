@@ -1,8 +1,8 @@
 from fastapi import APIRouter, status, HTTPException
 
 from app.models.user import User
-from app.schemas.auth import UserOut, RegisterIn, TokenOut
-from app.api.deps import SessionDep
+from app.schemas.auth import UserOut, RegisterIn, LoginIn, TokenOut, UserOut
+from app.api.deps import SessionDep, CurrentUser
 
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
@@ -45,6 +45,6 @@ async def login(data: LoginIn, session: SessionDep) -> TokenOut:
         raise invalid
     return TokenOut(access_token=create_access_token(user.id))
 
-@router.get("/me")
-async def me() -> dict[str, str]:
-    return {"route": "me"}
+@router.get("/me", response_model=UserOut)
+async def me(user: CurrentUser) -> User:
+    return user

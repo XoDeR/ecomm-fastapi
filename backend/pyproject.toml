@@ -9,5 +9,6 @@ dependencies = [
     "asyncpg>=0.32.0",
     "bcrypt>=5.0.0",
     "fastapi[standard]>=0.143.0",
+    "jwt>=1.4.0",
     "sqlalchemy[asyncio]>=2.1.4",
 ]
