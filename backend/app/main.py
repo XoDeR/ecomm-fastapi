@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.api import health, auth, categories, products
+from app.api import health, auth, categories, products, orders
 
 from contextlib import asynccontextmanager
 
@@ -17,6 +17,7 @@ def create_app() -> FastAPI:
     app.include_router(auth.router)
     app.include_router(categories.router)
     app.include_router(products.router)
+    app.include_router(orders.router)
 
     return app
 
