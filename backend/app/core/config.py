@@ -15,6 +15,9 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     jwt_expire_minutes: int = 60 * 24
 
+    stripe_secret_key: str = ""
+    stripe_webhook_secret: str = ""
+
 @lru_cache
 def get_settings() -> Settings:
     return Settings()

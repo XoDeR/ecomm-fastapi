@@ -11,4 +11,5 @@ dependencies = [
     "fastapi[standard]>=0.143.0",
     "jwt>=1.4.0",
     "sqlalchemy[asyncio]>=2.1.4",
+    "stripe>=16.0.1",
 ]
