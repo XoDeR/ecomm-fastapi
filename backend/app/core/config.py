@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     stripe_secret_key: str = ""
     stripe_webhook_secret: str = ""
 
+    redis_url: str
+
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
