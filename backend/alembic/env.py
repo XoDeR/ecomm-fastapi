@@ -12,6 +12,7 @@ import app.models.product # registers Product on Base.metadata
 import app.models.order # registers Order on Base.metadata
 import app.models.order_item # registers OrderItem on Base.metadata
 import app.models.download_link # registers DownloadLink on Base.metadata
+import app.models.notification # registers Notification on Base.metadata
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
