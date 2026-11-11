@@ -1,0 +1,27 @@
+from collections.abc import AsyncIterator
+
+import redis.asyncio as aioredis
+
+from app.core.config import get_settings
+
+_client: aioredis.Redis | None = None
+
+
+def get_redis_client() -> aioredis.Redis:
+    """Lazily create one shared Redis client per process."""
+    global _client
+    if _client is None:
+        _client = aioredis.Redis.from_url(get_settings().redis_url, decode_responses=True)
+    return _client
+
+
+async def get_redis() -> AsyncIterator[aioredis.Redis]:
+    """FastAPI dependency; tests can override it with a fake Redis."""
+    yield get_redis_client()
+
+
+async def close_redis_client() -> None:
+    global _client
+    if _client is not None:
+        await _client.aclose()
+        _client = None

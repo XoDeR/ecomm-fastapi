@@ -20,6 +20,9 @@ class Settings(BaseSettings):
 
     redis_url: str
 
+    google_client_id: str = ""
+    google_client_secret: str = ""
+
 @lru_cache
 def get_settings() -> Settings:
     return Settings()
