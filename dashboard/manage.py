@@ -15,6 +15,9 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
+    # FastAPI owns port 8000; make `manage.py runserver` default to 8001
+    from django.core.management.commands.runserver import Command as RunserverCommand
+    RunserverCommand.default_port = "8001"
     execute_from_command_line(sys.argv)
 
 
