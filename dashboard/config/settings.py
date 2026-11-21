@@ -42,7 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "ecomm_dashboard",
 ]
+
+# migrations are blocked, we use lembic models from fastapi backend
+MIGRATION_MODULES = {"ecomm_dashboard": None}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
